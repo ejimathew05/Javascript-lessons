@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors DOM</title>
+    <link rel="stylesheet" href="Styles/12-dom-RPS.css">
+</head>
+
+<body>
+    <h1>Rock Paper Scissors</h1>
+    <button  class="move-button rock-onclick"><img src="images/Rock.png" alt="" class="move-img"></button>
+
+    <button class="move-button paper-onclick"><img src="images/Paper.png" alt="" class="move-img"></button>
+
+    <button class="move-button scissors-onclick" ><img src="images/Scissors.png" alt="" class="move-img"></button>
+
+    <p class="js-result css-result"></p>
+
+    <p class="js-moves"></p>
+
+    <P class="js-score"></P>
+
+    <P><button class="reset-button" onclick="
+    scores.wins = 0;
+    scores.losses = 0;
+    scores.ties = 0;
+    localStorage.removeItem('score'); 
+    updateScore();
+    ">Reset scores</button>
+    <button class="autoplay-button" onclick="
+    autoplay()">AutoPlay</button></P>
+    <div>
+        <h1>How To Play</h1>
+        <p>
+            It follows the normal rule of Rock-Paper-Scissors Game
+        </p>
+        <p>
+         you can pick an option using the cursor   
+            <p> 
+                OR you can use these Hotkeys => 'r' to pick Rock, 'p' to pick paper, 's' to pick scissors.
+            </p>
+            <h4>Have Fun!</h4>
+        </p>
+    </div>
+
+
+    <script src="Javascript/12-dom-RPS.js"></script>
+
+</body>
+</html>

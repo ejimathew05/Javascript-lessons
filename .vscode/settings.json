@@ -1,0 +1,5 @@
+{
+    "files.autoSave": "afterDelay",
+    "liveServer.settings.fullReload": true,
+    "liveServer.settings.mount": [] // Ensure no conflicting mounts
+}
