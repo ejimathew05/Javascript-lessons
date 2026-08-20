@@ -25,7 +25,15 @@ const products = [
       count: 56,
     },
     priceCent: 799,
-  },
+  }, [{
+    Image: "https://supersimple.dev/projects/amazon/images/products/black-2-slot-toaster.jpg",
+    name: "Adults Plain Cotton T-Shirt - 2 Pack",
+    rating: {
+      stars: 4.5,
+      count: 56,
+    },
+    priceCent: 799}
+  ]
 ];
 
 let productHtml = "";
