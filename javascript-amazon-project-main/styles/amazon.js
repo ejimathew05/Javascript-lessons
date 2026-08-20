@@ -1,4 +1,3 @@
-
 let productHtml = "";
 products.forEach((product) => {
   // Accumulator Pattern
@@ -9,7 +8,8 @@ products.forEach((product) => {
               src="${product.image}">
           </div>
 
-          <div class="product-name limit-text-to-2-lines">
+          <div class="product-name limit-text-to-2-lines"
+         >
           ${product.name}
           </div>
 
@@ -47,10 +47,41 @@ products.forEach((product) => {
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">
+          <button class="add-to-cart-button button-primary js-add-to-cart"
+          data-product-id="${product.id}">
             Add to Cart
           </button>
         </div>`;
 });
 
 document.querySelector(".js-product-grid").innerHTML = productHtml;
+
+document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+  button.addEventListener("click", () => {
+    const productId = button.dataset.productId;
+    let marchingItem;
+    cart.forEach((item) => {
+      if (productId === item.id) {
+        marchingItem = item;
+      }});
+
+      if (marchingItem) {
+        marchingItem.quatity += 1;
+      } else {
+        cart.push({
+          id: productId,
+          quatity: 1,
+        });
+      }
+
+      let cartQuantity = 0;
+      cart.forEach((item) => {
+        cartQuantity += item.quatity
+      })
+    document.querySelector('.js-cart-quantity')
+      .innerHTML = cartQuantity;
+      console.log(cartQuantity);
+
+    console.log(cart);
+  });
+});
