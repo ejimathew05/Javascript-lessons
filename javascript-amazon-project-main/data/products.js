@@ -656,5 +656,21 @@ const products = [
       "apparel",
       "mens"
     ]
+  },
+   {
+    id: "bc2847e9-5323-403f-z7cf-57fde044a949",
+    image: "images/products/certificate-javascript.png",
+    name: "Super-Simple dev Javascript full courses Certificate",
+    rating: {
+      stars: 5,
+      count: 8157
+    },
+    priceCents: 3900,
+    keywords: [
+      "sweaters",
+      "hoodies",
+      "apparel",
+      "mens"
+    ]
   }
 ];

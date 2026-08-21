@@ -58,7 +58,7 @@ document.querySelector(".js-product-grid").innerHTML = productHtml;
 
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
-    const productId = button.dataset.productId;
+    const {productId} = button.dataset;
     let marchingItem;
     const selectedQuatity = document.querySelector(`.js-quatity-selector-${productId}`);
     productQuatity = Number(selectedQuatity.value)
