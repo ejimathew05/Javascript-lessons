@@ -7,11 +7,11 @@ let cartItemsContainer = '';
 let product;
 cart.forEach((cartItem) => {
     const productId = cartItem.productId;
-    product = products.find((marchingProduct) => marchingProduct.id === productId);
+    product = products.find((matchingProduct) => matchingProduct.id === productId);
   
  cartItemsContainer += `
   <div class="cart-item-container 
-  js-cart-item-container-${product.id}">
+  js-cart-item-container-${products.id}">
             <div class="delivery-date">
               Delivery date: Tuesday, June 21
             </div>
@@ -90,7 +90,6 @@ cart.forEach((cartItem) => {
 
   document.querySelector('.js-order-summary')
     .innerHTML = cartItemsContainer;
-  console.log(cartItemsContainer);
 } )   
 
 document.querySelectorAll('.js-delete-quantity')

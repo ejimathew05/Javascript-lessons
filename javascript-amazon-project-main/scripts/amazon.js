@@ -30,7 +30,7 @@ products.forEach((product) => {
           </div>
 
           <div class="product-quantity-container">
-            <select class="js-quatity-selector-${product.id}">
+            <select class="js-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -68,10 +68,10 @@ const addedAlertTimeouts = {};
 
 function getProductById(productId) {
    
-    const selectedQuatity = document.querySelector(
-      `.js-quatity-selector-${productId}`,
+    const selectedQuantity = document.querySelector(
+      `.js-quantity-selector-${productId}`,
     );
-    const productQuatity = Number(selectedQuatity.value);
+    const productQuantity = Number(selectedQuantity.value);
 
     const addedAlert = document.querySelector(`.js-add-to-cart-${productId}`);
     addedAlert.classList.add("added-to-cart-visible");
@@ -86,23 +86,23 @@ function getProductById(productId) {
     }, 2000);
     addedAlertTimeouts[productId] = timeoutId;
 
-    let marchingItem;
+    let matchingItem;
     cart.forEach((cartItem) => {
       if (productId === cartItem.id) {
-        marchingItem = cartItem;
+        matchingItem = cartItem;
       }
     });
 
-    if (marchingItem) {
-      marchingItem.quatity += productQuatity;
+    if (matchingItem) {
+      matchingItem.quantity += productQuantity;
     } else {
       cart.push({
         id: productId,
-        quatity: productQuatity,
+        quantity: productQuantity,
       });
-      console.log(productQuatity);
+      console.log(productQuantity);
     }
-
+console.log(cart);
 }
 
 
@@ -111,6 +111,5 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     const { productId } = button.dataset;
    getProductById(productId);
     updateCartQuantity();
-    console.log(cart);
   });
 });
