@@ -1,5 +1,7 @@
 import { cart, updateCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
+import { priceInDollar } from "./util/money.js";
+
 let productHtml = "";
 products.forEach((product) => {
   // Accumulator Pattern
@@ -24,7 +26,7 @@ products.forEach((product) => {
           </div>
 
           <div class="product-price">
-            $${(product.priceCents / 100).toFixed(2)}
+            $${priceInDollar(product.priceCents)}
           </div>
 
           <div class="product-quantity-container">
