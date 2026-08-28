@@ -4,12 +4,14 @@ import {priceInDollar} from "./util/money.js";
 
 let cartItemsContainer = '';
 
+let product;
 cart.forEach((cartItem) => {
     const productId = cartItem.productId;
-    const product = products.find((product) => product.id === productId);
+    product = products.find((marchingProduct) => marchingProduct.id === productId);
   
  cartItemsContainer += `
-  <div class="cart-item-container">
+  <div class="cart-item-container 
+  js-cart-item-container-${product.id}">
             <div class="delivery-date">
               Delivery date: Tuesday, June 21
             </div>
@@ -94,9 +96,11 @@ cart.forEach((cartItem) => {
 document.querySelectorAll('.js-delete-quantity')
   .forEach((link) => {
      link.addEventListener('click', () => {
-       const productId = link.dataset.productId;
-       removeItemFromCart(productId);
-       console.log(cart);
+       const productID = link.dataset.productId;
+       removeItemFromCart(productID);
+       
+      const container = document.querySelector(`.js-cart-item-container-${productID}`);
+      container.remove();
      })
 
     });       

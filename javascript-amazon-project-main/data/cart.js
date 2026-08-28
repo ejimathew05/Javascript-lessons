@@ -11,17 +11,16 @@ export let cart = [
 export function updateCartQuantity() {
    let cartQuantity = 0;
     cart.forEach((item) => {
-      cartQuantity += item.quatity;
+      cartQuantity += item.quantity;
     });
     document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
-    console.log(cartQuantity);
 }
 
-export function removeItemFromCart(productId) {
+export function removeItemFromCart(productID) {
   const newCart = [];
    
   cart.forEach((cartItem) => {
-    if (cartItem.productId !== productId) {
+    if (cartItem.productId !== productID) {
       newCart.push(cartItem);
         
     }
