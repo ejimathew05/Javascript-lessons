@@ -1,31 +1,41 @@
-import {cart, removeItemFromCart, updateCartQuantity} from "../data/cart.js";
-import {products} from "../data/products.js";
-import {priceInDollar} from "./util/money.js";
+import {cart, removeItemFromCart, updateCartQuantity, saveToStorage} from "../data/cart.js";
+import { products } from "../data/products.js";
+import { priceInDollar } from "./util/money.js";
 
-let cartItemsContainer = '';
-
-let product;
+let cartSummaryHTML = '';
 cart.forEach((cartItem) => {
-    const productId = cartItem.productId;
-    product = products.find((matchingProduct) => matchingProduct.id === productId);
+  console.log(cartItem);
+  const productId = cartItem.productId;
+  let marchingProduct;
+  // Deduplecation/Normalizing a Product: using the productId to find the matching product in the products array
+  products.forEach((product) => {
+    if (product.id === productId) {
+      marchingProduct = product;
+    }
+  });
   
- cartItemsContainer += `
+  if (!marchingProduct) {
+    console.warn(`Product with id ${productId} not found in products array`);
+    return;
+  }
+  
+  cartSummaryHTML += `
   <div class="cart-item-container 
-  js-cart-item-container-${products.id}">
+  js-cart-item-container-${marchingProduct.id}"> 
             <div class="delivery-date">
               Delivery date: Tuesday, June 21
             </div>
 
             <div class="cart-item-details-grid">
               <img class="product-image"
-                src="${product.image}">
+                src="${marchingProduct.image}">
 
               <div class="cart-item-details">
                 <div class="product-name">
-                  ${product.name}
+                  ${marchingProduct.name}
                 </div>
                 <div class="product-price">
-                  $${priceInDollar(product.priceCents)} 
+                  $${priceInDollar(marchingProduct.priceCents)} 
                 </div>
                 <div class="product-quantity">
                   <span>
@@ -34,7 +44,7 @@ cart.forEach((cartItem) => {
                   <span class="update-quantity-link link-primary">
                     Update
                   </span>
-                  <span class="delete-quantity-link link-primary js-delete-quantity" data-product-id="${product.id}">
+                  <span class="delete-quantity-link link-primary js-delete-quantity" data-product-id="${marchingProduct.id}">
                     Delete
                   </span>
                 </div>
@@ -47,7 +57,7 @@ cart.forEach((cartItem) => {
                 <div class="delivery-option">
                   <input type="radio" checked
                     class="delivery-option-input"
-                    name="delivery-option-${product.id}">
+                    name="delivery-option-${marchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
                       Tuesday, June 21
@@ -60,7 +70,7 @@ cart.forEach((cartItem) => {
                 <div class="delivery-option">
                   <input type="radio"
                     class="delivery-option-input"
-                    name="delivery-option-${product.id}">
+                    name="delivery-option-${marchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
                       Wednesday, June 15
@@ -73,7 +83,7 @@ cart.forEach((cartItem) => {
                 <div class="delivery-option">
                   <input type="radio"
                     class="delivery-option-input"
-                    name="delivery-option-${product.id}">
+                    name="delivery-option-${marchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
                       Monday, June 13
@@ -87,19 +97,20 @@ cart.forEach((cartItem) => {
             </div>
           </div>
   `;
+});
 
-  document.querySelector('.js-order-summary')
-    .innerHTML = cartItemsContainer;
-} )   
 
-document.querySelectorAll('.js-delete-quantity')
-  .forEach((link) => {
-     link.addEventListener('click', () => {
-       const productID = link.dataset.productId;
-       removeItemFromCart(productID);
-       
-      const container = document.querySelector(`.js-cart-item-container-${productID}`);
-      container.remove();
-     })
+document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
 
-    });       
+document.querySelectorAll(".js-delete-quantity").forEach((link) => {
+  link.addEventListener("click", () => {
+    const productId = link.dataset.productId;
+    removeItemFromCart(productId);
+
+    const container = document.querySelector(
+      `.js-cart-item-container-${productId}`,
+    );
+    container.remove();
+    saveToStorage();
+  });
+});
