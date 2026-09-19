@@ -62,48 +62,44 @@ document.querySelector(".js-product-grid").innerHTML = productHtml;
 // timeoutId for each product is in an object
 const addedAlertTimeouts = {};
 
-
 updateCartQuantity();
 
+function addToCart(productId) {
+  const selectedQuantity = document.querySelector(
+    `.js-quantity-selector-${productId}`,
+  );
+  const productQuantity = Number(selectedQuantity.value);
 
-function  addToCart(productId) {
-   
-    const selectedQuantity = document.querySelector(
-      `.js-quantity-selector-${productId}`,
-    );
-    const productQuantity = Number(selectedQuantity.value);
+  const addedAlert = document.querySelector(`.js-add-to-cart-${productId}`);
+  addedAlert.classList.add("added-to-cart-visible");
 
-    const addedAlert = document.querySelector(`.js-add-to-cart-${productId}`);
-    addedAlert.classList.add("added-to-cart-visible");
+  const previousTimeoutId = addedAlertTimeouts[productId];
+  if (previousTimeoutId) {
+    clearTimeout(previousTimeoutId);
+  }
+  const timeoutId = setTimeout(() => {
+    clearTimeout(timeoutId);
+    addedAlert.classList.remove("added-to-cart-visible");
+  }, 2000);
+  addedAlertTimeouts[productId] = timeoutId;
 
-    const previousTimeoutId = addedAlertTimeouts[productId];
-    if (previousTimeoutId) {
-      clearTimeout(previousTimeoutId);
+  let matchingItem;
+  cart.forEach((cartItem) => {
+    if (productId === cartItem.productId) {
+      matchingItem = cartItem;
     }
-    const timeoutId = setTimeout(() => {
-      clearTimeout(timeoutId);
-      addedAlert.classList.remove("added-to-cart-visible");
-    }, 2000);
-    addedAlertTimeouts[productId] = timeoutId;
+  });
 
-     let matchingItem;
-    cart.forEach((cartItem) => {
-      if (productId === cartItem.productId) {
-        matchingItem = cartItem;
-      }
+  if (matchingItem) {
+    matchingItem.quantity += productQuantity;
+  } else {
+    cart.push({
+      productId: productId,
+      quantity: productQuantity,
     });
-
-    if (matchingItem) {
-      matchingItem.quantity += productQuantity;
-    } else {
-      cart.push({
-        productId: productId,
-        quantity: productQuantity,
-      });
-    }
-    saveToStorage();
+  }
+  saveToStorage();
 }
-
 
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
@@ -112,3 +108,4 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     updateCartQuantity();
   });
 });
+
