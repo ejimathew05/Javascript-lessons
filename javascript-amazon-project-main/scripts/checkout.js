@@ -49,7 +49,8 @@ cart.forEach((cartItem) => {
 
                   <span class="update-quantity-link link-primary js-update-quantity-link" data-product-id="${marchingProduct.id}">Update</span>
 
-                    <input class="quantity-input js-quantity-input-${marchingProduct.id}">
+                    <input class="quantity-input js-quantity-input js-quantity-input-${marchingProduct.id}" data-product-id="${marchingProduct.id}" type="number">
+
                     <span class="save-quantity-link link-primary" data-product-id="${marchingProduct.id}">Save</span>
                  
                   <span class="delete-quantity-link link-primary js-delete-quantity" data-product-id="${marchingProduct.id}">
@@ -135,33 +136,50 @@ document.querySelectorAll(".js-update-quantity-link").forEach((quantity) => {
 });
 
 
-function handleSaveQuantity (saveQuantity) {
- const {productId} = saveQuantity.dataset;
-     const container = document.querySelector(
-      `.js-cart-item-container-${productId}`
-    );
-   const editedQuantity = document.querySelector(`.js-quantity-input-${productId}`);
-   const newQuantity = Number(editedQuantity.value);
-   updateQuantity(productId, newQuantity);
-  if (newQuantity >=  0 && newQuantity < 1000){
-  const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
+function handleSaveQuantity(saveQuantity) {
+  const { productId } = saveQuantity.dataset;
+  const container = document.querySelector(
+    `.js-cart-item-container-${productId}`,
+  );
+  const editedQuantity = document.querySelector(
+    `.js-quantity-input-${productId}`,
+  );
+  const newQuantity = Number(editedQuantity.value);
+  
+
+  if (newQuantity < 0 || newQuantity >= 1000) {
+    alert("Please enter a valid quantity between 0 and 1000");
+    editedQuantity.value = "";
+    return;
+  };
+
+  updateQuantity(productId, newQuantity);
+
+  const quantityLabel = document.querySelector(
+    `.js-quantity-label-${productId}`,
+  );
   quantityLabel.innerHTML = newQuantity;
   saveToStorage();
-  container.classList.remove('is-editing-quantity');
+  container.classList.remove("is-editing-quantity");
   updateCheckoutQuantity();
-  editedQuantity.value = '';
-} else {alert('error')};
+  editedQuantity.value = "";
 }
+
+
 document.querySelectorAll(".save-quantity-link").forEach((saveQuantity) => {
   saveQuantity.addEventListener("click", () => {
    handleSaveQuantity (saveQuantity);
   });  
 });
-document.querySelectorAll(".save-quantity-link").addEventListener("keydown", (event) => {
-  if (event.key === 'Enter') {
+
+document.querySelectorAll(".js-quantity-input").forEach((inputField) => {
+  inputField.addEventListener("keydown", (event) => {
+    if (event.key === 'Enter') {
+    const { productId } = inputField.dataset;
+    const saveQuantity = document.querySelector(`.save-quantity-link[data-product-id="${productId}"]`);
     handleSaveQuantity(saveQuantity);
-    console.log (event);
-  }
+    }
+  });
 });
 
 

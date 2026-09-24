@@ -26,7 +26,6 @@ export function removeItemFromCart(productId) {
   cart.forEach((cartItem) => {
     if (cartItem.productId !== productId) {
       newCart.push(cartItem);
-        
     }
   })
 cart = newCart;
